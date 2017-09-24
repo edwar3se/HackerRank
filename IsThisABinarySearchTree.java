@@ -10,7 +10,7 @@ The Node class is defined as follows:
      FALSE if:  left node is equal or greater than root, 
                 anything on left side of tree is greater than original root,
                 right node is less than or equal to root,
-                anything on ride side of tree is greater than original root
+                anything on right side of tree is greater than original root
 */
 
     boolean checkBST(Node root) 
