@@ -7,55 +7,66 @@ The Node class is defined as follows:
         Node right;
      }
      
-     FALSE if:  left node is equal or greater than root, 
-                anything on left side of tree is greater than original root,
-                right node is less than or equal to root,
-                anything on right side of tree is greater than original root
-*/
+For the purposes of this challenge, we define a binary search tree to be a binary tree with the following ordering properties:
 
+The  value of every node in a node's left subtree is less than the data value of that node.
+The  value of every node in a node's right subtree is greater than the data value of that node.
+
+
+Given the root node of a binary tree, can you determine if it's also a binary search tree?
+*/
+    /*given a pointer to the root of the tree, returns true if the tree is a binary search
+    tree and false otherwise */
     boolean checkBST(Node root) 
     {
         if (root == null)
             return true;
         
-        return left(root.left, root.data) && right(root.right, root.data);
+        return checkTree(root).check;
     }
 
-    boolean left(Node root, int original)
+
+    NodeInfo checkTree(Node root)
     {
-        
-        if(root.data >= original)
-            return false;
+        //set min and max to value of current node
+        int min = root.data;
+        int max = root.data;
         
         if(root.left != null && root.right != null)
         {
-            if(root.left.data >= root.data || root.right.data <= root.data)
-                return false;
+            //do stuff with the left side
+            NodeInfo left = checkTree(root.left);
+            if(!left.check || (left.max >= root.data))
+            {
+                //return false result
+                return new NodeInfo(false, 0 ,0);
+            }
+            min = left.min;
             
-            return left(root.left, original) && left(root.right, original);
+            //do stuff with the right 
+            NodeInfo right = checkTree(root.right);
+            if(!right.check || (right.min <= root.data))
+            {
+                //return false result
+                return new NodeInfo(false, 0, 0);
+            }
+            max = right.max;
         }
         
-        return true;
+        return new NodeInfo(true, max, min);
     }
 
-    boolean right(Node root, int original)
+    class NodeInfo
     {
+        boolean check;
+        int max;
+        int min;
         
-        if(root.data <= original)
-            return false;
-        
-        if((root.left == null && root.right != null) || (root.left != null && root.right == null))
-            return false;
-        
-        if(root.left != null && root.right != null)
+        public NodeInfo(boolean check, int max, int min)
         {
-            
-            if(root.left.data >= root.data || root.right.data <= root.data)
-                return false;
-            
-            return right(root.left, original) && right(root.right, original);
+            this.check = check;
+            this.max = max;
+            this.min = min;
         }
-        
-        return true;
     }
 
