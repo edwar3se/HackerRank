@@ -25,7 +25,10 @@ Given the root node of a binary tree, can you determine if it's also a binary se
         return checkTree(root).check;
     }
 
-
+    /*recursive mehtod that returns a NodeInfo object. NodeInfo.check will be set
+      to false if the current node is not a sub-binary search tree. Otherwise,
+      NodeInfo.check will be set to true and min and max will contain min and 
+      max values of the sub-tree*/
     NodeInfo checkTree(Node root)
     {
         //set min and max to value of current node
@@ -56,12 +59,16 @@ Given the root node of a binary tree, can you determine if it's also a binary se
         return new NodeInfo(true, max, min);
     }
 
+    /*NodeInfo class (i.e. similar to a struct)
+      each NodeInfo has the current nodes sub-tree information,
+      including minimum, maximum, and check*/
     class NodeInfo
     {
-        boolean check;
-        int max;
-        int min;
+        boolean check; //true if a binary search tree, false otherwise
+        int max; //max of subtree
+        int min; //min of subtree
         
+        //Constructor for NodeInfo() class
         public NodeInfo(boolean check, int max, int min)
         {
             this.check = check;
